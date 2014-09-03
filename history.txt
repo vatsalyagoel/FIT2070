@@ -1,0 +1,117 @@
+---------Start Current Log-----------
+Timestamp: 20140904082612
+Displaying image 0 for time  3.81
+s
+Displaying image 1 for time  3.58
+s
+Displaying image 2 for time  2.78
+s
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904082632
+Displaying image 3 for time  3.69
+s
+Displaying Next Image
+Displaying image 4 for time  8.25
+s
+Displaying Next Image
+Displaying image 5 for time  3.38
+s
+Displaying Next Image
+Displaying image 6 for time  8.42
+s
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904082652
+Saving Current State and Quitting
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083117
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083118
+Displaying image 0 for time  3.81
+s
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083119
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083120
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083121
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083122
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083123
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083124
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083125
+Displaying image 1 for time  3.58
+s
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083126
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083127
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083128
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083129
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083130
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083131
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083132
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083133
+Displaying image 2 for time  2.78
+s
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083134
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083135
+
+--------End Current Log--------
+---------Start Current Log-----------
+Timestamp: 20140904083136
+Saving Current State and Quitting
+
+--------End Current Log--------
