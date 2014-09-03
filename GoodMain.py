@@ -4,7 +4,7 @@ import threading
 import Queue
 import time
 
-def downloadImage(imageNo):
+def getImage(imageNo):
 	print 'downloading image ' + str(imageNo)
 	parms="task=image&number=%d&data=0" % (imageNo)
 	imageServer=urllib2.urlopen("%s/%s?%s" % (SERVER,PROGRAM,parms))
@@ -22,10 +22,10 @@ def timer(delay, killProcess):
 		time.sleep(0.5)
 		counter +=0.5
 	stop = False
-	killProcess.finish.set()
 	global currentImage
 	currentImage = (currentImage + 1)%56
-	
+	#killProcess.finish.set()
+"""	
 class timerThread(threading.Thread):
 	def __init__(self, delay, killProcess):
 		threading.Thread.__init__(self)
@@ -40,7 +40,7 @@ class timerThread(threading.Thread):
 		killProcess.finish.set()
 		global currentImage
 		currentImage = (currentImage + 1)%56
-		
+"""		
 	
 class displayImageThread(threading.Thread):
 	def __init__(self, imageNo):
@@ -51,8 +51,6 @@ class displayImageThread(threading.Thread):
 		displayProcess = subprocess.Popen(["display", "test.jpg"])
 		timerThread = threading.Thread(target = timer(getScore(self.imageNo), self))
 		timerThread.start()
-		while not self.finish.is_set():
-			pass
 		displayProcess.kill()
 
 def getScore(imageNo):
@@ -84,26 +82,26 @@ def updateHistory(text):
 def userInput():
 	global running
 	while running:
-		s = raw_input('Command >')
+		s = raw_input('>')
 		inputQueue.put(s)
 
 SERVER="http://ajhurst.org"
 PROGRAM="~ajh/cgi-bin/imageServer.py"
+global stop
 global running
 global history
 global currentImage
 global displayedImage
 global disp
-global stop
 currentImage = 1
 displayedImage = -1
 
+stop = False
 running = True
 inputQueue = Queue.Queue()
-stop = False
 
-input_thread = threading.Thread(target=userInput)
-input_thread.start()
+userInputThread = threading.Thread(target=userInput)
+userInputThread.start()
 
 while running:
 	if not(inputQueue.empty()):
@@ -112,24 +110,29 @@ while running:
 			if task == 'h':
 				displayHistory()
 			elif task[0] == 's':
-				try:
-					if float(task[2:]):
-						scoreImage(imageNo, task[2:])
-				except:
-					print 'input must be a decimal number > 0'	
+				#try:
+				if float(task[2:]):
+					print task[2:]
+					scoreImage(currentImage, task[2:])
+				#except:
+					#print 'input must be a decimal number > 0'	
 			elif task == 'p':
-				currentImage = (currentImage - 1)%56
+				currentImage = (displayedImage - 1)%56
+				#if displayedImage - currentImage != 1 :
+					#currentImage = (currentImage - 1)%56
 				stop = True
-				disp.finish.set()
+				#disp.finish.set()
 			elif task == 'n':
-				currentImage = (currentImage + 1)%56
+				currentImage = (displayedImage + 1)%56
+				#if currentImage-displayedImage ==2:
+					#currentImage = (currentImage - 1)%56
 				stop = True
-				disp.finish.set()
+				#disp.finish.set()
 			elif task == 'q':
 				running = False
-				disp.finish.set()
+				#disp.finish.set()
 	elif displayedImage != currentImage:
-		downloadImage(currentImage)
+		getImage(currentImage)
 		disp = displayImageThread(currentImage)
 		disp.start()
 		displayedImage = currentImage
