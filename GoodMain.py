@@ -84,7 +84,7 @@ def updateHistory(text):
 def userInput():
 	global running
 	while running:
-		s = raw_input('>')
+		s = raw_input('Command >')
 		inputQueue.put(s)
 
 SERVER="http://ajhurst.org"
@@ -97,7 +97,6 @@ global disp
 global stop
 currentImage = 1
 displayedImage = -1
-
 
 running = True
 inputQueue = Queue.Queue()
