@@ -3,6 +3,8 @@ import subprocess
 import threading
 import Queue
 import time
+import os
+import platform
 
 class logger():
     def __init__(self):
@@ -16,19 +18,24 @@ class logger():
         self.logFileLock.release()
         self.fileHandle.close()
     def timeStamp(self):
-        stamp = time.strftime("%Y%m%d%H%M%S")
+        stamp = time.strftime("%Y-%m-%d %H:%M:%S")
         return stamp
 def loggerTimeThread():
 	global running
 	global out
 	counter = 0
-	while running and counter < 20:
-		time.sleep(1)
-		counter+=1
+	while running:
+		timerThread = threading.Thread(target = logTimer(20))
+		timerThread.start()
 		log = logger()
 		log.writeLine(out)
 		out=""
-    	
+def logTimer(delay):
+	global stop
+	counter = 0
+	while running and counter < delay:
+		time.sleep(0.5)
+		counter +=0.5
 
 def getImage(imageNo):
 	print 'downloading image ' + str(imageNo)
@@ -41,7 +48,7 @@ def getImage(imageNo):
 		imageFile.write(b)
 	imageFile.close()
 	
-def timer(delay):
+def displayTimer(delay):
 	global stop
 	counter = 0
 	while not stop and counter < delay:
@@ -58,8 +65,11 @@ class displayImageThread(threading.Thread):
 		self.finish = threading.Event()
 		self.imageNo = imageNo
 	def run(self):
-		displayProcess = subprocess.Popen(["display", "test.jpg"])
-		timerThread = threading.Thread(target = timer(getScore(self.imageNo)))
+		if platform.system()=='Linux':
+			displayProcess = subprocess.Popen(["display", "test.jpg"])
+		elif platform.system()=='Windows':
+			displayProcess = subprocess.Popen("start test.jpg", shell=True)
+		timerThread = threading.Thread(target = displayTimer(getScore(self.imageNo)))
 		timerThread.start()
 		displayProcess.kill()
 
@@ -74,7 +84,7 @@ def returnScore(imageNo):
 	parms="task=score&number=%d&data=0" % (imageNo)
 	imageServer=urllib2.urlopen("%s/%s?%s" % (SERVER,PROGRAM,parms))
 	line = imageServer.readline()
-	return line+"s"
+	return str(float(line))+"s"
 def getMax():
 	parms="task=maximum"
 	imageServer=urllib2.urlopen("%s/%s?%s" % (SERVER,PROGRAM,parms))
@@ -91,14 +101,7 @@ def displayHistory():
 	history=open('history.txt', 'r')
 	print history.read()
 	history.close()
-"""
-def updateHistory(text):
-	if history.closed():
-		history.open('hist.txt', a)
-	history.write(text + '\n')
-"""
-def intervalUpdate(text):
-	pass
+	
 def userInput():
 	global running
 	while running:
@@ -130,6 +133,8 @@ logThread = threading.Thread(target=loggerTimeThread)
 logThread.finish=threading.Event()
 logThread.start()
 
+print platform.system()
+
 while running:
 	if not(inputQueue.empty()):
 		task = inputQueue.get()
@@ -156,13 +161,17 @@ while running:
 					nextImage = (nextImage + 1)%getMax()
 				stop = True
 				displayThread.finish.set()
+			elif task == 'c':
+				os.system('clear')
 			elif task == 'q':
-				out += "Saving Current State and Quitting\n"
+				out += "Saving Current State and Quitting"
 				stop = True
 				displayThread.finish.set()
 				userInputThread.finish.set()
 				logThread.finish.set()
 				running = False
+				print("press Enter/Return to Quit")
+				print("Saving Current State and Quitting")
 				break
 	elif displayedImage != nextImage:
 		getImage(nextImage)
